@@ -177,6 +177,7 @@ class BuildContext:
                 parallel=self._parallel,
                 container_env_var=self._container_env_var,
                 container_env_var_file=self._container_env_var_file,
+                docker_network=self._docker_network,
                 build_images=self._build_images,
                 combine_dependencies=not self._create_auto_dependency_layer,
             )

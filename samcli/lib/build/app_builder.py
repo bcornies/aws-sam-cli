@@ -90,6 +90,7 @@ class ApplicationBuilder:
         docker_client: Optional[docker.DockerClient] = None,
         container_env_var: Optional[Dict] = None,
         container_env_var_file: Optional[str] = None,
+        docker_network: Optional[str] = None,
         build_images: Optional[Dict] = None,
         combine_dependencies: bool = True,
     ) -> None:
@@ -152,6 +153,7 @@ class ApplicationBuilder:
         self._colored = Colored()
         self._container_env_var = container_env_var
         self._container_env_var_file = container_env_var_file
+        self._docker_network = docker_network
         self._build_images = build_images or {}
         self._combine_dependencies = combine_dependencies
 
@@ -396,6 +398,10 @@ class ApplicationBuilder:
         }
         if docker_build_target:
             build_args["target"] = cast(str, docker_build_target)
+
+        LOG.debug("Docker Network is: %s", self._docker_network)
+        if self._docker_network:
+            build_args["network_mode"] = self._docker_network
 
         build_logs = self._docker_client.api.build(**build_args)
 
